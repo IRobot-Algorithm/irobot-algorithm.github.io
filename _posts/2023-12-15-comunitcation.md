@@ -1,0 +1,104 @@
+---
+title: 通信教程
+date: 2023-12-15 
+categories: [Edu]
+tags: [通信]
+---
+| 版本 | 日期       | 人员                      | 修改记录                             |
+| ---- | ---------- | ------------------------- | ------------------------------------ |
+| v1.2 | 2023-01-04 | 郑桂勇, 2712089295@qq.com | 修复部分格式问题，以及串口部分的问题 |
+| v1.1 | 2023-01-03 | 池威律, 694621753@qq.com  | 修复部分错误                         |
+| v1.0 | 2023-12-15 | 池威律, 694621753@qq.com  | 增加通信部分文档                     |
+
+## 1.CAN
+
+### 学习IRobot战队视觉组自瞄代码通信部分
+
+通信部分在[自瞄仓库](https://github.com/IRobot-Algorithm/Infantry)的如下目录下
+
+```
+src/Algorithm/src/Transporter/can/can.cpp
+src/rmos_transporter/src/can_comm_node.cpp
+```
+
+### 学会用命令行或脚本使能can
+
+```
+sudo ip link set can0 type can bitrate 1000000
+sudo ifconfig can0 up
+# or
+echo "nuc" | sudo -S ip link set can0 type can bitrate 1000000
+echo "nuc" | sudo -S ifconfig can0 up
+```
+
+### 学会在命令行使用candump can0来查看can线上的数据
+
+安装在 Linux 上 SocketCAN 命令行调试工具：
+
+```
+sudo apt install can-utils
+sudo ip link set can0 up type can bitrate 1000000
+# 查看can0线上的数据
+candump can0
+```
+
+![candump](home/albert/workspace/skiders.github.io/_posts/assests/imgs/candump.png)
+
+```
+其中201为ID，在用户手册内或src/Algorithm/include/Transporter/can/can.hpp内定义
+[8]右侧为该帧的信息
+注意can通信一帧最多只能发送8个字节（byte），不要尝试在一帧can内发送多于8个字节的数据!!!
+```
+
+若can0上有多个ID的信息，则可使用以下命令只显示特定ID
+
+```
+candump can0 | grep 201
+```
+
+若有两路can则命令行对应改为
+
+```
+candump can1
+```
+
+如果要更深入学习can通信的原理自行搜索socket编程
+
+## 2.串口（待补充）
+
+2022赛季自瞄通信由串口通信改为can通信，2023赛季队内只有**雷达**使用串口通信，若感兴趣请提前自行搜索
+
+## 3.usb通信
+
+一帧usb通信可以发送无限字节的消息，后续可以考虑自瞄使用usb通信代替can通信(这有利于**信息同步性**)。
+
+### 依赖及其构建
+
+- usb通信依赖libusb，其安装可以参考[博客](https://blog.csdn.net/jiacong_wang/article/details/106720863?spm=1001.2014.3001.5502)
+
+### 赋权usb
+
+```
+lsusb
+```
+
+找到stm32 usb虚拟串口，假设为
+
+```
+Bus 003 Device 009: ID 0483:5740 STMicroelectronics Virtual COM Port
+```
+
+一般Bus id不会改变，而Device id在每次重新插入后都会发生变化,所以一般这样赋权此usb端口
+
+```
+sudo chmod 777 /dev/bus/usb/003/*
+```
+
+### 学习usb通信nuc端代码
+
+视控一体使用usb通信从c版读取裁判系统数据和imu数据（[视控一体仓库](https://github.com/IRobot-Algorithm/Vision_Control))
+
+```
+src/skider_hw/sdk/include/usbcdc_transporter.hpp
+src/skider_hw/sdk/src/usbcdc_transporter.cpp
+```
