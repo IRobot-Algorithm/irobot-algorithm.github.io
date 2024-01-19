@@ -42,7 +42,7 @@ sudo ip link set can0 up type can bitrate 1000000
 candump can0
 ```
 
-![candump](home/albert/workspace/skiders.github.io/_posts/assests/imgs/candump.png)
+![candump](https://github.com/IRobot-Algorithm/irobot-algorithm.github.io/tree/main/assets/imgs/2023-12-15-comunitcation/candump.png)
 
 ```
 其中201为ID，在用户手册内或src/Algorithm/include/Transporter/can/can.hpp内定义
