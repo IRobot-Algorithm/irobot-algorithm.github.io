@@ -4,6 +4,7 @@ date: 2023-12-15
 categories: [Edu]
 tags: [通信]
 ---
+
 | 版本 | 日期       | 人员                      | 修改记录                             |
 | ---- | ---------- | ------------------------- | ------------------------------------ |
 | v1.2 | 2023-01-04 | 郑桂勇, 2712089295@qq.com | 修复部分格式问题，以及串口部分的问题 |
@@ -16,19 +17,21 @@ tags: [通信]
 
 通信部分在[自瞄仓库](https://github.com/IRobot-Algorithm/Infantry)的如下目录下
 
-```
+```shell
 src/Algorithm/src/Transporter/can/can.cpp
 src/rmos_transporter/src/can_comm_node.cpp
 ```
 
 ### 学会用命令行或脚本使能can
 
-```
+```shell
+
 sudo ip link set can0 type can bitrate 1000000
 sudo ifconfig can0 up
 # or
 echo "nuc" | sudo -S ip link set can0 type can bitrate 1000000
 echo "nuc" | sudo -S ifconfig can0 up
+
 ```
 
 ### 学会在命令行使用candump can0来查看can线上的数据
