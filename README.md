@@ -19,7 +19,8 @@ markdown文件采用 `<year>-<month>-<date>-<name-of-Blog>` 的方式命名，�
 ```yaml
 ---
 title: 通信教程
-date: 2023-12-15 
+date: 2023-12-15
+author: eren  # 作者信息，使用前需要在_data/authors.yml下新增你的信息。如果有多人作者，请去掉掉这一行。
 categories: [Edu] # 分类，规范看下文
 tags: [通信]   # 标签，规范看下文
 pin: false		# 是否置顶，请设为 false ，仅我可以选择置顶与否
